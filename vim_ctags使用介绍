@@ -1,0 +1,67 @@
+１、介绍：
+ctags在vim6.0及之后和它分开，其原理是执行ctags命令后会在当前目录下递归文件并为这些文件建立一个
+tags,这个文件包含关键字和它所在的文件及行号等。
+２、安装
+先确定电脑上是否安装了，whatis ctags,ctags --help 等
+没有可以下载安装或者尝试sudo
+1)sudo apt-get install exuberant-ctags
+2)源码安装，在官网上　http://ctags.sourceforge.net/或 http://www.vim.org/scripts/script.php?script_id=610
+解压后：tar -...
+　　cd ctags-xx
+  ./configure
+ make
+make install
+用whatis ctags 　whereis ctags测试
+
+３、配置tags路径和自动
+ctags *.c *.h
+生成tags文件可以直接在vim时，:!ctags -R或者在某个目录ctags -R .
+但是这样tags文件会在该目录下生成，不利于当代码要进行make时就需要忽略文件。。
+
+
+在vim打开源码时，指定tags文件，才可正常使用，通常手动指定，在vim命令行输入：
+:set tags=./tags(当前路径下的tags文件)
+若要引用多个不同目录的tags文件，可以用逗号隔开
+
+或者，设置 ~/.vimrc，加入一行，则不用手动设置tags路径：
+set tags=~/path/tags
+
+若要加入系统函数或全局变量的tag标签，则需执行：
+ctags -I __THROW –file-scope=yes –langmap=c:+.h –languages=c,c++ –links=yes –c-kinds=+p --fields=+S -R -f ~/.vim/systags /usr/include /usr/local/include
+并且在~/.vimrc中添加（亦可用上面描述的手动加入的方式）：
+set tags+=~/.vim/systags
+这样，便可以享受系统库函数名补全、原型预览等功能了。
+
+如果经常在不同工程里查阅代码，那么可以在~/.vimrc中添加：
+set tags=tags;
+set autochdir
+2)自动执行ctags:
+   通过在vimrc中建立映射建：nnoremap <F5> :!ctags -R<CR>来完成索引更新工作
+3)每次保存文件时自动执行
+　　在vimrc中建立自动命令：autocmd BufWritePost * call system("ctags -R")
+
+
+
+４、taglist使用：http://www.vim.org/scripts/script.php?script_id=273
+【下载安装】
+        taglist插件是以vim脚本的形式存在，因此只需要将其下载下来放到相应的目录即可。taglist基于ctags才能发挥作用，因此在使用taglist之前，确保已经安装了ctags。具体安装方法如下：
+下载地址(两个可选择任意一个)：
+Official site  http://vim-taglist.sourceforge.net/
+VIM online  http://www.vim.org/scripts/script.php?script_id=273
+下载解压后，将插件脚本文件(.vim)和帮助文件(.txt)分别放入vim常用目录：
+$HOME/.vim/ 或
+$HOME/vimfiles/ 或
+$VIM/vimfiles/
+下的
+plugin/taglist.vim
+doc/taglist.txt
+中。
+:helptags ~/.vim/doc
+在vim中，打开taglist窗口使用
+:help taglist.txt
+:Tlist (:TlistOpen, :TlistToggle)
+关闭窗口可使用
+
+:Tlist (:TlistClose, :TlistToggle)
+【使用】通过ctrl+w+w三次来切换到Tlist窗口，并通过回车或者鼠标双击来选择到对应的函数
+

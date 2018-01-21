@@ -1,0 +1,14 @@
+在下面的网站下载中文帮助的文件包:
+http://vimcdoc.sf.net       (English)
+http://vcd.gro.clinux.org    (中文)
+
+下载的文件包应该是类似这样的: vimcdoc-1.5.0.tar.gz
+解压后其中有个doc文件夹, 将其中的内容全部复制到~/.vim/doc, 或者vim安装目录下的doc目录中, 此时vim中的help信息已经是中文的了.
+注意:
+a. 如果无法显示中文, 在~/.vimrc中增加下面这句试试:
+   set helplang=cn
+b. 帮助文件的文本是utf-8编码的, 如果想用vim直接查看, 需要在~/.vimrc中设置:
+   set encoding=utf-8
+
+:help usr_29
+:help usr_30

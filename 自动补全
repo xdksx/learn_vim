@@ -1,0 +1,9 @@
+自动补全是vim中自带的功能
+关于java的自动补全在这里可以找到，不过要安装插件管理，比较烦
+https://github.com/artur-shaik/vim-javacomplete2
+
+vim中原生的自动补全功能可以见
+https://blog.easwy.com/archives/advanced-vim-skills-auto-complete/
+
+
+c++等的补全可以见：https://blog.easwy.com/archives/advanced-vim-skills-omin-complete/

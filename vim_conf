@@ -1,0 +1,35 @@
+vim的配置：
+配置文件：针对所有用户：/etc/vim/vimrc
+          针对相关用户：用户目录下自己建立：.vimrc
+中文帮助手册的安装：中文的可以在vim的官方网上下载，并且按照提示install进行安装,后就打开vim，输入:help,即可根据指示一步步学习
+配置脚本(script--vimrc):键入:script即可了解其语法；
+以下是一个例子：
+   ”一键运行
+   map <F5>:call CompileRunGcc()<CR>
+   func! CompileRunGcc()
+       exec 'w'   “表示执行:w以保存文件
+   if &filetype=='c'      "&取得选项值，表示什么类型的文件
+       exec "!gcc % -o %<"    “！执行外部命令  %表示当前文件名，%<表示当前文件名去掉扩展
+       exec "!time ./%<"   ”time时间命令
+   elseif &filetype=='cpp'
+       exec "!g++ % -o %<"
+       exec "!time ./%<"
+   elseif&filetype=='java'
+       exec "!javac% -o %<"
+       exec "!time java %<"
+   elseif &filetype=='sh'
+       exec "!time bash %"
+   elseif &filetype=='python'
+       exec "!time python2.7 %"
+   elseif &filetype=='html'
+       exec "!time !firefox % &"
+   elseif &filetype=='go'
+       exec "!go build %<"
+       exec "!time !go run %"
+   elseif &filetype=='mkd'
+       exec "!~/.vim/markdown.pl % > %.html &"
+       exec "!firefox %.html &"
+  endif
+  endfunc
+
+

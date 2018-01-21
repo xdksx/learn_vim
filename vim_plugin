@@ -1,0 +1,190 @@
+关于vim插件的配置等：
+   使用了这么多的插件，如何更好的管理呢？
+   -------------------------使用Vundle-------vim 下的bundle(灵感来源于 Ruby 社区的 Bundle 工具，语法相似。）------------------------
+   https://github.com/VundleVim/Vundle.vim
+   1、安装git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+   当然也可以下载之后放到这个目录中（没有文件夹就新建）
+   2、配置.vimrc:
+    
+    
+    set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.//以下是配置一些插件的例子，不需要的话可以注释掉
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+Plugin 'L9'
+" Git plugin not hosted on GitHub
+Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+Plugin 'ascenator/L9', {'name': 'newL9'}
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"在打开vim后输入
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+3、安装插件的几种方式：
+Install Plugins:
+
+Launch vim and run :PluginInstall
+
+To install from command line: vim +PluginInstall +qall
+
+
+
+
+     ---------------------------安装snipmate:代码自动插入(同类插件xptemplate）----------------------------
+https://github.com/garbas/vim-snipmate
+
+方式1：直接下载插件，然后放在插件管理目录
+% cd ~/.vim/bundle
+% git clone https://github.com/tomtom/tlib_vim.git
+% git clone https://github.com/MarcWeber/vim-addon-mw-utils.git
+% git clone https://github.com/garbas/vim-snipmate.git
+
+# Optional://这个是提供的自动补全内容文件，如果自己写则不用，一般都是用现成的，补全内容的来源
+% git clone https://github.com/honza/vim-snippets.git
+
+方式2：直接在配置文件中加入，后运行vim后:PluginInstall
+  Plugin 'MarcWeber/vim-addon-mw-utils'
+  Plugin 'tomtom/tlib_vim'
+  Plugin 'garbas/vim-snipmate'
+
+  " Optional:
+  Plugin 'honza/vim-snippets'  “注意这个不要注释
+  
+  2使用：
+  如：c
+  输入for,按tab键即可
+  python：
+  输入ifmain,按tab键生成if __main....
+  3：h:snipmate帮助
+  
+  
+  
+  -------------------------安装语法检查插件syntastic----------------------------
+  https://github.com/vim-syntastic/syntastic
+  
+  
+  1、安装：Bundle 'scrooloose/syntastic'（或者是Plugin开头）具体方法为在.vimrc加入并按照上面的方式安装
+  2、配置：
+    参考：
+    http://www.wklken.me/posts/2015/06/07/vim-plugin-syntastic.html
+    let g:syntastic_error_symbol='>>'
+let g:syntastic_warning_symbol='>'
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_enable_highlighting=1
+let g:syntastic_python_checkers=['pyflakes'] " 使用pyflakes,速度比pylint快
+let g:syntastic_javascript_checkers = ['jsl', 'jshint']
+let g:syntastic_html_checkers=['tidy', 'jshint']
+" 修改高亮的背景色, 适应主题
+highlight SyntasticErrorSign guifg=white guibg=black
+
+" to see error location list
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_loc_list_height = 5
+function! ToggleErrors()
+    let old_last_winnr = winnr('$')
+    lclose
+    if old_last_winnr == winnr('$')
+        " Nothing was closed, open syntastic error location panel
+        Errors
+    endif
+endfunction
+nnoremap <Leader>s :call ToggleErrors()<cr>
+" nnoremap <Leader>sn :lnext<cr>
+" nnoremap <Leader>sp :lprevious<cr>
+或者是github，见上面的连接
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+
+3、使用：保存后会显示位置
+:Errors 显示错误面板
+:lnext  到下一个错误
+:lprevious 到上一个错误
+更多方法见帮助或者github项目连接见上
+
+
+----------------------------编程提示;jedi-vim-------------------------
+Plugin 'davidhalter/jedi-vim'
+
+https://github.com/davidhalter/jedi先安装这个
+https://github.com/davidhalter/jedi-vim在安装这个
+进行到一半，就差安装库jedi
+
+--------------------------自动补全的插件：YCM（YouCompleteMe)或者OmniCppComplete（基于ctags)----------------------------------------
+YouCompleteMe:https://github.com/Valloric/YouCompleteMe#ubuntu-linux-x64
+1、Make sure you have Vim 7.4.143 with Python 2 or Python 3 support. 
+2、nstall YouCompleteMe with Vundle.
+Remember: YCM is a plugin with a compiled component. If you update YCM using Vundle and the ycm_core library APIs have changed (happens rarely), YCM will notify you to recompile it. You should then rerun the install process.
+
+3、Install development tools and CMake: sudo apt-get install build-essential cmake
+4、Make sure you have Python headers installed: sudo apt-get install python-dev python3-dev.
+5、Compiling YCM with semantic support for C-family languages:
+
+cd ~/.vim/bundle/YouCompleteMe
+./install.py --clang-completer
+
+Compiling YCM without semantic support for C-family languages:
+
+cd ~/.vim/bundle/YouCompleteMe
+./install.py
+
+6、配置：https://github.com/Valloric/ycmd/blob/master/cpp/ycm/.ycm_extra_conf.py
+使用YouCompleteMe
+
+YouCompleteMe进行补全时需要查找一个 ycm_global_ycm_extra_conf文件。可以每次在工作目录中放置这个文件，也可以设置全局。全局设置要在.vimrc中添加一行
+
+let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+7、该插件的其他特性：语法错误提示和代码跳转定义
+
+http://zuyunfei.com/2013/05/16/killer-plugin-of-vim-youcompleteme/
+
+
+
+
+
+
+
+http://www.cnblogs.com/Suzzz/p/4071880.html
+http://blog.csdn.net/u013445530/article/details/46726109
+
+http://blog.csdn.net/klarclm/article/details/7932558

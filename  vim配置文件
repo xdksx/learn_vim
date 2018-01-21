@@ -1,0 +1,61 @@
+linux环境下vim的初始化配置文件为.vimrc, 通常有两个:系统版本和用户版本，前者不同发行版linux会有不同，一般位于/etc/vimrc，是整个系统vim的默认配置；后者位于~/.vimrc，是当前用户的vim配置，会覆盖系统配置。关于vim的其他配置参数文件位于/usr/local/share/vim/下，可进入vim，在命令模式下键入
+:version （查看基本配置路径）
+:echo $VIM
+:echo $HOME（查看具体路径值）
+~/.vimrc有时并不存在，此时用户可以建立一个.vimrc，放入主目录以实现自己的vim配置。
+一、配置文件篇：主题，语法高亮等http://vimdoc.sourceforge.net/htmldoc/starting.html#vimrc
+这里可以还可以通过auto命令去自动执行命令。在进入和离开vim时等。如匹配文件设置缩进
+.vimrc通常用于指定vim的编辑参数和外观环境
+１、颜色主题：
+在vim 中:echo $VIMRUNTIME可以看到的路径（这个环境变量貌似只有在vim运行时才能看到，在shell中是空?
+如/usr/share/vim/vim74
+进入此目录，进入colors目录。可以看到许多的.vim结尾的文件，这些文件就是主题文件，文件
+名就是主题名，在.vimrc中进行主题配置如下：
+添加或更改：
+colorscheme desert  #desert为主题名字
+
+
+关于主题颜色，可以在上述中选，若还是不满意，可以在vim.org上下载安装或者
+自己创建，见:help syntax.txt
+
+
+２、语法高亮:help syntax.txt
+在配置文件中:
+syntax enable
+syntax on
+这种语法高亮只是支持常规语言中的语法关键字，并不能高亮函数，类型等，那如何高亮这些呢？
+在同上的路径/usr/share/vim/vim74/下有syntax文件夹，其中有很多.vim的文件就是高亮各种语言后缀名的
+文件，可以自己创建一个。并在自己用户的~/.vim/syntax/下放置，会覆盖在/usr/..中的
+而关于如何修改和加入如匹配函数等，在http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax
+可以找到，属于vimscript脚本的范畴，对如何在匹配自定义的类型，不知道能不能在ctags中中找到答案。。
+３、设置缩进,一下几个为缩进相关的
+1)设置自动缩进后能在回车后自动缩进，而缩进的大小由以下设置。
+2)可以设置autocmd命令http://vimdoc.sourceforge.net/htmldoc/autocmd.html#autocommand，判断当前文件是什么格式来采取何种缩进方式显示和大小，这样就不会犯错了
+3)缩进可以有高级的如全局设置
+” “Vim多行缩进技巧
+1.按v进入visual状态，选择多行，用>或<缩进或缩出
+2. 通常根据语言特征使用自动缩进排版：在命令状态下对当前行用== （连按=两次）, 或对多行用n==（n是自然数）表示自动缩进从当前行起的下面n行。你可以试试把代码缩进任意打乱再用n==排版，相当于一般IDE里的code format。使用gg=G可对整篇代码进行排版。 “”http://blog.csdn.net/topasstem8/article/details/6678215
+４、设置制表符宽度
+:set tabstop=4  会改变当前已经显示的制表符大小，如缩进变化
+:set softtabstop=4　不会改变当前已显示的，新打入的生效
+
+５、设置缩进的空格数
+set shiftwidth=4
+”自动缩进
+在Vim中还可以进行自动缩进，主要有cindent、smartindent和autoindent三种。
+cindent Vim可以很好的识别出C和Java等结构化程序设计语言，并且能用C语言的缩进格式来处理程序的缩进结构。可以使用以下命令，启用cindent缩进结构：
+:set cindent
+smartindent 在这种缩进模式中，每一行都和前一行有相同的缩进量，同时这种缩进形式能正确的识别出花括号，当遇到右花括号（}），则取消缩进形式。此外还增加了识别C语言关键字的功能。如果一行是以#开头的，那么这种格式将会被特殊对待而不采用缩进格式。可以使用以下命令，启用smartindent缩进结构：
+:set smartindent
+autoindent 在这种缩进形式中，新增加的行和前一行使用相同的缩进形式。可以使用以下命令，启用autoindent缩进形式。
+:set autoindent“
+
+６、显示行号
+set nu
+７、将搜索内容反白
+set hlsearch
+
+
+
+
+关于vimrc的还有很多，参考文档，以后遇到再加
